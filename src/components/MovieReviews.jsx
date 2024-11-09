@@ -1,6 +1,6 @@
 const MovieReviews = () => {
     return (
-<div></div>
+<div>Reviews</div>
     )
 }
 

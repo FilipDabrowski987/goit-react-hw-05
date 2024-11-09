@@ -1,0 +1,7 @@
+.movie-details-container {
+    display: flex;
+}
+
+.movie-details-poster {
+    height: 320px;
+}

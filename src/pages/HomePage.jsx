@@ -33,7 +33,6 @@ const HomePage = () => {
                     <Link to={`/movies/${movie.id}`}>
                         {movie.title}
                     </Link>
-                    {/* <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} /> */}
                 </li>
             ))}
         </ul>
