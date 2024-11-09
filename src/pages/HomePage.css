@@ -1,7 +1,8 @@
 /* .video-gallery {
     margin: 10px 15px;
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
 } */
+
+.video-gallery-item {
+    width: fit-content;
+    cursor: pointer;
+}

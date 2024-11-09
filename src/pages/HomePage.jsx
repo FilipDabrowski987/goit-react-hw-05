@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "./HomePage.css"
 
@@ -24,11 +25,14 @@ const HomePage = () => {
         };
         fetchPopularMovies();
     }, []);
+
     return (
         <ul className='video-gallery'>
             {movies.map(movie => (
-                <li key={movie.id}>
-                    <p>{movie.title}</p>
+                <li key={movie.id} className='video-gallery-item'>
+                    <Link to={`/movies/${movie.id}`}>
+                        {movie.title}
+                    </Link>
                     {/* <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} /> */}
                 </li>
             ))}
