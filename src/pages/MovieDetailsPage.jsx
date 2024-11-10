@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
 import axios from 'axios';
+// import MovieCast from '../components/MovieCast';
+// import MovieReviews from '../components/MovieReviews';
 import "./MovieDetailsPage.css"
 
 const API_URL = 'https://api.themoviedb.org/3/movie/';
@@ -8,33 +10,39 @@ const API_ACCESS_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjRjMmI0NTkzZT
 
 
 const MovieDetailsPage = () => {
-
     const { movieId } = useParams();
-    const [movieDetails, setMovieDetails] = useState(null);
-
+    const [movieDetails, setMovieDetails] = useState({});
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+     
     useEffect(() => {
         const fetchMovieDetails = async () => {
-            try {
-                const response = await axios.get(`${API_URL}${movieId}`, {
-                    headers: {
-                        Authorization: API_ACCESS_TOKEN,
-                    },
-                });
-                setMovieDetails(response.data);
-            } catch (error){
-                console.error("Błąd podczas pobierania szczegółów filmu:", error);
-            }
-        };
+        setIsLoading(true);
+        try {
+        const response = await axios.get(`${API_URL}${movieId}`, {
+            headers: {
+                Authorization: API_ACCESS_TOKEN,
+            },
+        });
+        setMovieDetails(response.data);
+        // eslint-disable-next-line no-unused-vars
+        } catch (error){
+        setError('Błąd podczas pobierania szczegółów filmu');
+        } finally {
+        setIsLoading(false);
+      }
+    };
         fetchMovieDetails();
     }, [movieId]);
 
- if (!movieDetails) {
-        return <div>Loading...</div>;
-    }
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
         <div>
-            <Link to={`/`}>Go back</Link>
+        <button onClick={() => navigate(location.state?.from || '/')}>Go Back</button>
             <div className='movie-details-container'>
             <div>
                 {movieDetails.poster_path && (
@@ -45,20 +53,18 @@ const MovieDetailsPage = () => {
                 )}
             </div>
             <div>
-                <h2>{movieDetails.title} ({movieDetails.release_date.slice(0, 4)})</h2>
+                <h2>{movieDetails.title} ({movieDetails.release_date ? movieDetails.release_date.slice(0, 4) : ''})</h2>
                 <p>User Score: {Math.round(movieDetails.vote_average * 10)}%</p>
                 <h3>Overview</h3>
                 <p>{movieDetails.overview}</p>
                 <h3>Genres</h3>
-                <p>{movieDetails.genres.map(genre => genre.name).join(', ')}</p>
+                <p>{movieDetails.genres ? movieDetails.genres.map(genre => genre.name).join(', ') : ''}</p>
             </div>
             </div>
             <div>
                 <p>Additional information</p>
-                <ul>
-                    <li><Link to={`/movies/${movieId}/cast`}>Cast</Link></li>
-                    <li><Link to={`/movies/${movieId}/reviews`}>Reviws</Link></li>
-                </ul>
+                <Link to="cast">Cast</Link><br/>
+                <Link to="reviews">Reviews</Link>
             </div>
             <Outlet />
     </div>
