@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import "./MovieDetailsPage.css"
-import MovieCast from '../components/MovieCast';
+// import MovieCast from '../components/MovieCast';
 import MovieReviews from '../components/MovieReviews';
 
 const API_URL = 'https://api.themoviedb.org/3/movie/';
@@ -29,8 +29,6 @@ const MovieDetailsPage = () => {
         };
         fetchMovieDetails();
     }, [movieId]);
-
-    console.log(movieDetails)
 
  if (!movieDetails) {
         return <div>Loading...</div>;
@@ -59,7 +57,7 @@ const MovieDetailsPage = () => {
             <div>
                 <p>Additional information</p>
                 <ul>
-                    <MovieCast />
+                    <li><Link to={`/movies/${movieId}/cast`}>Cast</Link></li>
                     <MovieReviews/>
                 </ul>
 
@@ -72,6 +70,7 @@ const MovieDetailsPage = () => {
                 {/* /movies/:movieId/cast – komponent MovieCast     */}
                 {/* /movies/:movieId/reviews – komponent MovieReviews */}
             </div>
+            <Outlet />
     </div>
     )
 }
