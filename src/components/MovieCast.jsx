@@ -19,6 +19,7 @@ const MovieCast = () => {
                     },
                 });
                 setMovieCast(response.data.cast);
+                 console.log(response.data.cast);
             } catch (error){
                 console.error("Błąd podczas pobierania obsady:", error);
             }
@@ -35,11 +36,22 @@ const MovieCast = () => {
             <ul>
                 {movieCast.map((actor) => (
                     <li key={actor.cast_id}>
-                        {actor.name} jako {actor.character}
+                        {actor.profile_path ? (
+                            <img 
+                                src={`https://image.tmdb.org/t/p/w200/${actor.profile_path}`} 
+                                alt={`${actor.name}`} 
+                                width="100"
+                                height="150"
+                            />
+                        ) : (
+                            <div>No Image</div>
+                        )}
+                        <h4>{actor.name}</h4>
+                        <p>Character: {actor.character}</p>
                     </li>
                 ))}
             </ul>
-</div>
+        </div>
     )
 }
 

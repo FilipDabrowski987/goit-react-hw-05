@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import "./MovieDetailsPage.css"
-// import MovieCast from '../components/MovieCast';
-// import MovieReviews from '../components/MovieReviews';
 
 const API_URL = 'https://api.themoviedb.org/3/movie/';
 const API_ACCESS_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjRjMmI0NTkzZTg5Y2QxNTI5Yzg5ZjhiYjQ4MjhjNCIsIm5iZiI6MTczMTE1MjkyNC41MDc4MDYzLCJzdWIiOiI2NWVhMjI4NGQxMDBiNjAxODU0ZDM2MTgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Kt2G6GwG69PvYXpEM2qjAi_6mxELtRvgtQifvx-Lw9g';
@@ -35,8 +33,9 @@ const MovieDetailsPage = () => {
     }
 
     return (
-    <div>
-        <div className='movie-details-container'>
+        <div>
+            <Link to={`/`}>Go back</Link>
+            <div className='movie-details-container'>
             <div>
                 {movieDetails.poster_path && (
                 <img className='movie-details-poster'            
@@ -60,15 +59,6 @@ const MovieDetailsPage = () => {
                     <li><Link to={`/movies/${movieId}/cast`}>Cast</Link></li>
                     <li><Link to={`/movies/${movieId}/reviews`}>Reviws</Link></li>
                 </ul>
-
-                
-                {/* <Link to={`/movies/${movie.id}`}>
-                        {movie.title}
-                    </Link> */}
-
-
-                {/* /movies/:movieId/cast – komponent MovieCast     */}
-                {/* /movies/:movieId/reviews – komponent MovieReviews */}
             </div>
             <Outlet />
     </div>

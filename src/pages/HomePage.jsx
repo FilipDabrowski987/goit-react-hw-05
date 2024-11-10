@@ -18,7 +18,7 @@ const HomePage = () => {
                         Authorization: API_ACCESS_TOKEN,
                     },
                 });
-                console.log(response.data);
+                // console.log(response.data);
                 setMovies(response.data.results);
             } catch (error){
                 console.error("Błąd podczas pobierania popularnych filmów:", error);
