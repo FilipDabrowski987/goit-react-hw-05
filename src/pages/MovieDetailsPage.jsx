@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
 import axios from 'axios';
-// import MovieCast from '../components/MovieCast';
-// import MovieReviews from '../components/MovieReviews';
 import "./MovieDetailsPage.css"
 
 const API_URL = 'https://api.themoviedb.org/3/movie/';
 const API_ACCESS_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjRjMmI0NTkzZTg5Y2QxNTI5Yzg5ZjhiYjQ4MjhjNCIsIm5iZiI6MTczMTE1MjkyNC41MDc4MDYzLCJzdWIiOiI2NWVhMjI4NGQxMDBiNjAxODU0ZDM2MTgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Kt2G6GwG69PvYXpEM2qjAi_6mxELtRvgtQifvx-Lw9g';
-
 
 const MovieDetailsPage = () => {
     const { movieId } = useParams();
@@ -16,7 +13,9 @@ const MovieDetailsPage = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-     
+    
+    const backLocation = location.state?.from || '/';
+
     useEffect(() => {
         const fetchMovieDetails = async () => {
         setIsLoading(true);
@@ -42,7 +41,7 @@ const MovieDetailsPage = () => {
 
     return (
         <div>
-        <button onClick={() => navigate(location.state?.from || '/')}>Go Back</button>
+        <button onClick={() => navigate(backLocation)} style={{ backgroundColor: 'transparent', border:'none', cursor:'pointer' }}> &lt;- Go Back</button>
             <div className='movie-details-container'>
             <div>
                 {movieDetails.poster_path && (
@@ -63,8 +62,8 @@ const MovieDetailsPage = () => {
             </div>
             <div>
                 <p>Additional information</p>
-                <Link to="cast">Cast</Link><br/>
-                <Link to="reviews">Reviews</Link>
+                <Link to="cast" state={{ from: backLocation }}>Cast</Link><br />
+                <Link to="reviews" state={{ from: backLocation }}>Reviews</Link>
             </div>
             <Outlet />
     </div>
